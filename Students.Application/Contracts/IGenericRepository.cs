@@ -1,6 +1,6 @@
 ﻿namespace Students.Application.Contracts
 {
-	public interface IGenericRepository<T>
+	public interface IGenericRepository<T>  
 	{
 		Task<IEnumerable<T>> GetAllAsync(CancellationToken token = default);
 		Task<T> GetByIdAsync(Guid Id, CancellationToken token = default);

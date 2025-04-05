@@ -2,11 +2,12 @@
 {
 	public record StudentResponseDto(
 		Guid StudentId,
-		Guid AcademicRecordId,
 		string FirstName,
 		string LastName,
 		string Email,
 		bool IsActive,
 		DateOnly DateOfBirth,
-		List<EnrollmentResponseDto> Enrollments);
+		List<EnrollmentResponseDto> Enrollments,
+		List<AdmissionApplicationResponseDto> Applications,
+		List<AcademicRecordResponseDto> AcademicRecords);
 }

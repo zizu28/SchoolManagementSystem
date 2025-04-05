@@ -13,6 +13,7 @@ using Students.Infrastructure.CacheServices.AcademicRecordCache;
 using Students.Infrastructure.CacheServices.StudentCache;
 using Students.Infrastructure.CacheServices.EnrollmentCache;
 using Students.Infrastructure.CacheServices.AdmissionApplicationCache;
+using Serilog.Formatting;
 
 namespace Students.Infrastructure
 {
@@ -64,7 +65,9 @@ namespace Students.Infrastructure
 				.MinimumLevel.Debug()
 				.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
 				.WriteTo.Console()
-				.WriteTo.File("StudentManagementLogs/log-.txt", rollingInterval: RollingInterval.Day)
+				.WriteTo.File("StudentManagementLogs/log-.txt", 
+				rollingInterval: RollingInterval.Day,
+				outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
 				.Enrich.FromLogContext()
 				.Enrich.WithProperty("Application", "StudentManagementService")
 				.CreateLogger();

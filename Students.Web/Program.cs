@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Host.UseSerilog();
+builder.SerilogConfiguration();
 
 builder.Services.AddControllers();
 
@@ -17,6 +17,8 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
+
+app.UseSerilogRequestLogging();
 app.UseExceptionHandler(err => { });
 // Configure the HTTP request pipeline.
 

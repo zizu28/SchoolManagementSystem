@@ -9,8 +9,8 @@
 		public DateOnly DateOfBirth { get; set; }
 		public DateTime AdmissionDate { get; set; }
 		public bool IsActive { get; set; }
-		public Guid AcademicRecordId { get; set; }
-		public AcademicRecord AcademicRecord { get; set; } = new();
+
+		public List<AcademicRecord> AcademicRecords = [];
 		public List<AdmissionApplication> Applications { get; set; } = [];
 		public List<Enrollment> Enrollments { get; set; } = [];
 	}

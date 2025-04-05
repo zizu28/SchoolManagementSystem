@@ -1,6 +1,6 @@
 ﻿namespace Students.Application.DTOs.EntityCreateDTOs
 {
-	public record AcademicRecordUpddateDto(
+	public record AcademicRecordCreateDto(
 		Guid StudentId,
 		decimal GPA,
 		int TotalCredits);

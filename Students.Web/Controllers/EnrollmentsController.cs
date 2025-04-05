@@ -1,23 +1,30 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Students.Application.CQRS.Commands.EnrollmentCommands;
 using Students.Application.CQRS.Queries.EnrollmentsQueries;
 using Students.Application.DTOs.EntityCreateDTOs;
 using Students.Application.DTOs.EntityUpdateDtTOs;
+using Students.Domain.Entities;
+using Students.Infrastructure.CacheServices.EnrollmentCache;
 
 namespace Students.Web.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class EnrollmentsController(IMediator mediator) : ControllerBase
+	public class EnrollmentsController(IMediator mediator,
+		IEnrollmentCacheSevice cacheSevice, IMapper mapper) : ControllerBase
 	{
 		private readonly IMediator _mediator = mediator;
+		private readonly IEnrollmentCacheSevice _cacheSevice = cacheSevice;
+		private readonly IMapper _mapper = mapper;
 
 		[HttpGet]
 		public async Task<IActionResult> GetAllEnrollmentsAsync()
 		{
 			var query = new GetAllEnrollmentsQuery();
-			var result = await _mediator.Send(query);
+			var result = await _cacheSevice.GetAllAsync("enrollments")
+				?? await _mediator.Send(query);
 			return Ok(result);
 		}
 
@@ -25,7 +32,8 @@ namespace Students.Web.Controllers
 		public async Task<IActionResult> GetEnrollmentByIdAsync(Guid id)
 		{
 			var query = new GetEnrollmentByIdQuery { EnrollmentId = id };
-			var result = await _mediator.Send(query);
+			var result = await _cacheSevice.GetAsync(id)
+				?? await _mediator.Send(query);
 			return Ok(result);
 		}
 
@@ -38,6 +46,7 @@ namespace Students.Web.Controllers
 			}
 			var command = new CreateEnrollmentCommand { Enrollment = enrollment };
 			var result = await _mediator.Send(command);
+			await _cacheSevice.SetAsync(result.Id, _mapper.Map<Enrollment>(enrollment));
 			return CreatedAtRoute("GetEnrollmentById", new { id = result.Id }, result);
 		}
 
@@ -58,6 +67,7 @@ namespace Students.Web.Controllers
 		{
 			var command = new DeleteEnrollmentCommand { EnrollmentId = id };
 			await _mediator.Send(command);
+			await _cacheSevice.RemoveAsync(id);
 			return NoContent();
 		}
 	}

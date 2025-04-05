@@ -30,11 +30,10 @@ namespace Students.Infrastructure.Data
 				.WithOne(e => e.Student)
 				.HasForeignKey(e => e.StudentId);
 
-			modelBuilder.Entity<Student>()
-				.HasOne(s => s.AcademicRecord)
-				.WithOne(a => a.Student)
-				.HasForeignKey<AcademicRecord>(a => a.StudentId);
-
+			modelBuilder.Entity<AcademicRecord>()
+				.HasOne(s => s.Student)
+				.WithMany(s => s.AcademicRecords)
+				.HasForeignKey(s => s.StudentId);
 
 			modelBuilder.Entity<Student>().HasIndex(s => s.Email).IsUnique();
 
@@ -50,6 +49,11 @@ namespace Students.Infrastructure.Data
 
 			modelBuilder.Entity<AdmissionApplication>()
 				.HasIndex(aa => aa.ProgramCode).IsUnique();
+
+			// Academic record configuration
+			modelBuilder.Entity<AcademicRecord>()
+				.Property(a => a.GPA)
+				.HasPrecision(3, 2);
 		}
 	}
 }

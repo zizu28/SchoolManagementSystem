@@ -1,23 +1,30 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Students.Application.CQRS.Commands.StudentCommands;
 using Students.Application.CQRS.Queries.StudentsQueries;
 using Students.Application.DTOs.EntityCreateDTOs;
 using Students.Application.DTOs.EntityUpdateDtTOs;
+using Students.Domain.Entities;
+using Students.Infrastructure.CacheServices.StudentCache;
 
 namespace Students.Web.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class StudentsController(IMediator mediator) : ControllerBase
+	public class StudentsController(IMediator mediator,
+		IStudentCacheService cacheService, IMapper mapper) : ControllerBase
 	{
 		private readonly IMediator _mediator = mediator;
+		private readonly IStudentCacheService _cacheService = cacheService;
+		private readonly IMapper _mapper = mapper;
 
 		[HttpGet]
 		public async Task<IActionResult> GetAllStudentsAsync()
 		{
 			var query = new GetAllStudentsQuery();
-			var result = await _mediator.Send(query);
+			var result = await _cacheService.GetAllAsync("students")
+				?? await _mediator.Send(query);
 			return Ok(result);
 		}
 
@@ -25,7 +32,8 @@ namespace Students.Web.Controllers
 		public async Task<IActionResult> GetStudentByIdAsync(Guid id)
 		{
 			var query = new GetStudentByIdQuery { StudentId = id };
-			var result = await _mediator.Send(query);
+			var result = await _cacheService.GetAsync(id)
+				?? await _mediator.Send(query);
 			return Ok(result);
 		}
 
@@ -39,6 +47,7 @@ namespace Students.Web.Controllers
 			}
 			var command = new CreateStudentCommand { Student = student };
 			var result = await _mediator.Send(command);
+			await _cacheService.SetAsync(result.Id, _mapper.Map<Student>(student));
 			return CreatedAtRoute("GetStudentById", new { id = result.Id }, result);
 		}
 
@@ -51,7 +60,7 @@ namespace Students.Web.Controllers
 			}
 			var command = new UpdateStudentCommand { StudentId = id, Student = student };
 			var result = await _mediator.Send(command);
-			return NoContent();
+			return Ok(result);
 		}
 
 		[HttpDelete("{id:guid}")]
@@ -59,6 +68,7 @@ namespace Students.Web.Controllers
 		{
 			var command = new DeleteStudentCommand { StudentId = id };
 			await _mediator.Send(command);
+			await _cacheService.RemoveAsync(id);
 			return NoContent();
 		}
 	}

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Students.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Students.Infrastructure.Data;
 namespace Students.Infrastructure.Migrations
 {
     [DbContext(typeof(StudentDbContext))]
-    partial class StudentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250404231256_ModifiedStudentEntity")]
+    partial class ModifiedStudentEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,8 +32,7 @@ namespace Students.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("GPA")
-                        .HasPrecision(3, 2)
-                        .HasColumnType("decimal(3,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uniqueidentifier");
@@ -139,7 +141,7 @@ namespace Students.Infrastructure.Migrations
             modelBuilder.Entity("Students.Domain.Entities.AcademicRecord", b =>
                 {
                     b.HasOne("Students.Domain.Entities.Student", "Student")
-                        .WithMany("AcademicRecords")
+                        .WithMany()
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -171,8 +173,6 @@ namespace Students.Infrastructure.Migrations
 
             modelBuilder.Entity("Students.Domain.Entities.Student", b =>
                 {
-                    b.Navigation("AcademicRecords");
-
                     b.Navigation("Applications");
 
                     b.Navigation("Enrollments");

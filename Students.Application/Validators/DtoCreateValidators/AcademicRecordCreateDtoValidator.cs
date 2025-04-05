@@ -3,7 +3,7 @@ using Students.Application.DTOs.EntityCreateDTOs;
 
 namespace Students.Application.Validators.DtoCreateValidators
 {
-	public class AcademicRecordCreateDtoValidator : AbstractValidator<AcademicRecordUpddateDto>
+	public class AcademicRecordCreateDtoValidator : AbstractValidator<AcademicRecordCreateDto>
 	{
 		public AcademicRecordCreateDtoValidator()
 		{

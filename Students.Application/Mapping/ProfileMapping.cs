@@ -46,8 +46,8 @@ namespace Students.Application.Mapping
 				opt => opt.MapFrom(src => src.Status.ToString()));
 			CreateMap<Enrollment, EnrollmentResponseDto>();
 
-			CreateMap<AcademicRecordUpddateDto, AcademicRecord>();
-			CreateMap<AcademicRecordUpdateDto, AcademicRecord>();
+			CreateMap<AcademicRecordCreateDto, AcademicRecord>();
+			CreateMap<AcademicRecordCreateDto, AcademicRecord>();
 			CreateMap<AcademicRecord, AcademicRecordResponseDto>();
 		}
 	}
