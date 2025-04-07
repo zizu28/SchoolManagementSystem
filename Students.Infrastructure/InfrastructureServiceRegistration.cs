@@ -28,19 +28,20 @@ namespace Students.Infrastructure
 			});
 
 			// Configure the Hybrid Cache
-			services.AddHybridCache(opt =>
-			{
-				opt.DefaultEntryOptions = new HybridCacheEntryOptions
-				{
-					Expiration = TimeSpan.FromMinutes(10),
-					LocalCacheExpiration = TimeSpan.FromMinutes(5)
-				};
-			});
+			//services.AddHybridCache(opt =>
+			//{
+			//	opt.DefaultEntryOptions = new HybridCacheEntryOptions
+			//	{
+			//		Expiration = TimeSpan.FromMinutes(10),
+			//		LocalCacheExpiration = TimeSpan.FromMinutes(5)
+			//	};
+			//});
 
+			// Configure the Redis Cache
 			services.AddStackExchangeRedisCache(opt =>
 			{
 				opt.Configuration = configuration.GetConnectionString("Redis");
-				opt.InstanceName = "StudentManagementService";
+				opt.InstanceName = "StudentManagementService-";
 			});
 
 			// Register repository definitions and implementations

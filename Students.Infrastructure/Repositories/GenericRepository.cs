@@ -15,6 +15,12 @@ namespace Students.Infrastructure.Repositories
 			await _dbContext.SaveChangesAsync(token);
 		}
 
+		public async Task AddManyAsync(IEnumerable<T> entities, CancellationToken token = default)
+		{
+			await _dbContext.Set<T>().AddRangeAsync(entities, token);
+			await _dbContext.SaveChangesAsync(token);
+		}
+
 		public async Task DeleteAsync(T entity, CancellationToken token = default)
 		{
 			_dbContext.Set<T>().Remove(entity);

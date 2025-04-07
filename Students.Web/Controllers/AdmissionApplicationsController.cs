@@ -6,26 +6,23 @@ using Students.Application.CQRS.Queries.AdmissionApplicationQueries;
 using Students.Application.DTOs.EntityCreateDTOs;
 using Students.Application.DTOs.EntityUpdateDtTOs;
 using Students.Application.DTOs.ResponseDTOs;
-using Students.Domain.Entities;
 using Students.Infrastructure.CacheServices.AdmissionApplicationCache;
-using System.Text.Json;
 
 namespace Students.Web.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class AdmissionApplicationsController(IMediator mediator, 
-		IAdmissionApplicationCache cache, IMapper mapper) : ControllerBase
+	public class AdmissionApplicationsController(IMediator mediator,
+		IAdmissionApplicationCache cacheService) : ControllerBase
 	{
 		private readonly IMediator _mediator = mediator;
-		private readonly IAdmissionApplicationCache _cache = cache;
-		private readonly IMapper _mapper = mapper;
+		private readonly IAdmissionApplicationCache _cacheService = cacheService;
 
 		[HttpGet]
 		public async Task<IActionResult> GetAllAdmissionApplicationsAsync()
 		{
 			var query = new GetAllAdmissionApplicationsQuery();
-			var result = await _cache.GetAllAsync("admission-applications")
+			var result = await _cacheService.GetAllAsync("admission-applications")
 				?? await _mediator.Send(query);
 			return Ok(result);
 		}
@@ -34,7 +31,7 @@ namespace Students.Web.Controllers
 		public async Task<ActionResult<AdmissionApplicationResponseDto>> GetAdmissionApplicationByIdAsync(Guid id)
 		{
 			var query = new GetAdmissionApplicationByIdQuery { AdmissionApplicationId = id };
-			var result = await _cache.GetAsync(id)
+			var result = await _cacheService.GetAsync(id) 
 				?? await _mediator.Send(query);
 			return Ok(result);
 		}
@@ -48,7 +45,6 @@ namespace Students.Web.Controllers
 			}
 			var command = new CreateAdmissionApplicationCommand { AdmissionApplication = admissionApplication };
 			var result = await _mediator.Send(command);
-			await _cache.SetAsync(result.Id, _mapper.Map<AdmissionApplication>(admissionApplication));
 			return CreatedAtRoute("GetAdmissionApplicationById", new { id = result.Id }, result);
 		}
 
@@ -69,7 +65,6 @@ namespace Students.Web.Controllers
 		{
 			var command = new DeleteAdmissionApplicationCommand { AdmissionApplicationId = id };
 			await _mediator.Send(command);
-			await _cache.RemoveAsync(id);
 			return NoContent();
 		}
 	}

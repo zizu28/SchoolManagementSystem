@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.Extensions.Caching.Hybrid;
 using Students.Application.Contracts;
 using Students.Application.CQRS.Queries.StudentsQueries;
 using Students.Application.DTOs.ResponseDTOs;

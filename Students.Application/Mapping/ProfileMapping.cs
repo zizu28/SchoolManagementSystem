@@ -13,7 +13,7 @@ namespace Students.Application.Mapping
 		{
 			CreateMap<StudentCreateDto, Student>();
 			CreateMap<StudentUpdateDto, Student>();
-			CreateMap<Student, StudentResponseDto>();
+			CreateMap<Student, StudentResponseDto>().ReverseMap();
 
 
 			// Admission application mapping
@@ -29,7 +29,7 @@ namespace Students.Application.Mapping
 			CreateMap<AdmissionApplication, AdmissionApplicationUpdateDto>()
 				.ForMember(dest => dest.Status,
 				option => option.MapFrom(src => src.Status.ToString()));
-			CreateMap<AdmissionApplication, AdmissionApplicationResponseDto>();
+			CreateMap<AdmissionApplication, AdmissionApplicationResponseDto>().ReverseMap();
 
 			// Enrollment Mapping
 			CreateMap<EnrollmentCreateDto, Enrollment>()
@@ -44,11 +44,11 @@ namespace Students.Application.Mapping
 			CreateMap<Enrollment, EnrollmentUpdateDto>()
 				.ForMember(dest => dest.Status,
 				opt => opt.MapFrom(src => src.Status.ToString()));
-			CreateMap<Enrollment, EnrollmentResponseDto>();
+			CreateMap<Enrollment, EnrollmentResponseDto>().ReverseMap();
 
 			CreateMap<AcademicRecordCreateDto, AcademicRecord>();
-			CreateMap<AcademicRecordCreateDto, AcademicRecord>();
-			CreateMap<AcademicRecord, AcademicRecordResponseDto>();
+			CreateMap<AcademicRecordUpdateDto, AcademicRecord>();
+			CreateMap<AcademicRecord, AcademicRecordResponseDto>().ReverseMap();
 		}
 	}
 }

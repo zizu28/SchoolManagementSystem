@@ -8,24 +8,24 @@ using Students.Application.DTOs.EntityUpdateDtTOs;
 using Students.Application.DTOs.ResponseDTOs;
 using Students.Domain.Entities;
 using Students.Infrastructure.CacheServices.AcademicRecordCache;
+using Students.Infrastructure.CacheServices.AdmissionApplicationCache;
 
 namespace Students.Web.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
 	public class AcademicRecordsController(IMediator mediator, 
-		IAcademicRecordCacheService cacheService, IMapper mapper) : ControllerBase
+		IAcademicRecordCacheService cacheService) : ControllerBase
 	{
 		private readonly IMediator _mediator = mediator;
 		private readonly IAcademicRecordCacheService _cacheService = cacheService;
-		private readonly IMapper _mapper = mapper;
 
 		[HttpGet]
 		public async Task<IActionResult> GetAllAcademicRecordsAsync()
 		{
 			var query = new GetAllAcademicRecordsQuery();
 			var result = await _cacheService.GetAllAsync("academic-records")
-				??	await _mediator.Send(query);
+				?? await _mediator.Send(query);
 			return Ok(result);
 		}
 
@@ -47,7 +47,6 @@ namespace Students.Web.Controllers
 			}
 			var command = new CreateAcademicRecordCommand { AcademicRecord = academicRecord };
 			var result = await _mediator.Send(command);
-			await _cacheService.SetAsync(result.Id, _mapper.Map<AcademicRecord>(academicRecord));
 			return CreatedAtRoute("GetAcademicRecordById", new { id = result.Id }, result);
 		}
 
@@ -68,7 +67,6 @@ namespace Students.Web.Controllers
 		{
 			var command = new DeleteAcademicRecordCommand { AcademicRecordId = id };
 			await _mediator.Send(command);
-			await _cacheService.RemoveAsync(id);
 			return NoContent();
 		}
 	}

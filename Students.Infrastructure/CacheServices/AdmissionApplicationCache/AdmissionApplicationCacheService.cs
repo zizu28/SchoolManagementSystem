@@ -8,38 +8,32 @@ using System.Text.Json;
 
 namespace Students.Infrastructure.CacheServices.AdmissionApplicationCache
 {
-	public class AdmissionApplicationCacheService(IDistributedCache cache, 
-		IAdmissionApplicationRepository repository, IMapper mapper) 
+	public class AdmissionApplicationCacheService(IDistributedCache cache, IMapper mapper) 
 		: IAdmissionApplicationCache
 	{
 		private readonly IDistributedCache _cache = cache;
-		private readonly IAdmissionApplicationRepository _repository = repository;
 		private readonly IMapper _mapper = mapper;
 
 		public async Task<IEnumerable<AdmissionApplicationResponseDto>> GetAllAsync(string key, CancellationToken token = default)
 		{
 			var admissionApplications = await _cache.GetStringAsync(key, token);
-			if(admissionApplications is null)
+			if(admissionApplications != null)
 			{
-				var admissionApplicationsFromDb = await _repository.GetAllAsync(token);
-				await _cache.SetStringAsync(key, JsonSerializer.Serialize(admissionApplicationsFromDb), token);
-				return _mapper.Map<IEnumerable<AdmissionApplicationResponseDto>>(admissionApplicationsFromDb);
+				var result = JsonSerializer.Deserialize<IEnumerable<AdmissionApplication>>(admissionApplications!);
+				return _mapper.Map<IEnumerable<AdmissionApplicationResponseDto>>(result);
 			}
-			var result = JsonSerializer.Deserialize<IEnumerable<AdmissionApplication>>(admissionApplications)!;
-			return _mapper.Map<IEnumerable<AdmissionApplicationResponseDto>>(result);
+			return [];
 		}
 
 		public async Task<AdmissionApplicationResponseDto> GetAsync(Guid key, CancellationToken token = default)
 		{
 			var admissionApplication = await _cache.GetStringAsync($"admission-application-{key}", token);
-			if (admissionApplication is null)
+			if(admissionApplication != null)
 			{
-				var admissionApplicationFromDb = await _repository.GetByIdAsync(key, token);
-				await _cache.SetStringAsync($"admission-application-{key}", JsonSerializer.Serialize(admissionApplicationFromDb), token);
-				return _mapper.Map<AdmissionApplicationResponseDto>(admissionApplicationFromDb);
+				var result = JsonSerializer.Deserialize<AdmissionApplication>(admissionApplication!);
+				return _mapper.Map<AdmissionApplicationResponseDto>(result);
 			}
-			var result = JsonSerializer.Deserialize<AdmissionApplication>(admissionApplication)!;
-			return _mapper.Map<AdmissionApplicationResponseDto>(result);
+			return default!;
 		}
 
 		public async Task RemoveAsync(Guid key, CancellationToken token = default)

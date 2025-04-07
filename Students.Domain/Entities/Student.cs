@@ -7,7 +7,7 @@
 		public string LastName { get; set; } = string.Empty;
 		public string Email { get; set; } = default!; 
 		public DateOnly DateOfBirth { get; set; }
-		public DateTime AdmissionDate { get; set; }
+		public DateTime AdmissionDate { get; set; } = DateTime.UtcNow;
 		public bool IsActive { get; set; }
 
 		public List<AcademicRecord> AcademicRecords = [];

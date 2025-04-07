@@ -23,8 +23,13 @@ namespace Students.Web.Controllers
 		public async Task<IActionResult> GetAllStudentsAsync()
 		{
 			var query = new GetAllStudentsQuery();
-			var result = await _cacheService.GetAllAsync("students")
-				?? await _mediator.Send(query);
+			var result = await _cacheService.GetAllAsync("students");
+			if (!result.Any() || result == null)
+			{
+				var resultFromDb = await _mediator.Send(query);
+				await _cacheService.SetManyAsync("students", _mapper.Map<IEnumerable<Student>>(resultFromDb));
+				return Ok(resultFromDb);
+			}
 			return Ok(result);
 		}
 
@@ -47,7 +52,6 @@ namespace Students.Web.Controllers
 			}
 			var command = new CreateStudentCommand { Student = student };
 			var result = await _mediator.Send(command);
-			await _cacheService.SetAsync(result.Id, _mapper.Map<Student>(student));
 			return CreatedAtRoute("GetStudentById", new { id = result.Id }, result);
 		}
 
@@ -68,7 +72,6 @@ namespace Students.Web.Controllers
 		{
 			var command = new DeleteStudentCommand { StudentId = id };
 			await _mediator.Send(command);
-			await _cacheService.RemoveAsync(id);
 			return NoContent();
 		}
 	}

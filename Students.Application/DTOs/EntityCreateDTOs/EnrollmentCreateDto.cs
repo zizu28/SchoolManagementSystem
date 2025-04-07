@@ -1,6 +1,4 @@
-﻿using Students.Domain.Enums;
-
-namespace Students.Application.DTOs.EntityCreateDTOs
+﻿namespace Students.Application.DTOs.EntityCreateDTOs
 {
 	public record EnrollmentCreateDto(
 		Guid StudentId,

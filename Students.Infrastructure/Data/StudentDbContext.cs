@@ -37,6 +37,9 @@ namespace Students.Infrastructure.Data
 
 			modelBuilder.Entity<Student>().HasIndex(s => s.Email).IsUnique();
 
+			modelBuilder.Entity<Student>().HasIndex(s => s.FirstName);
+			modelBuilder.Entity<Student>().HasIndex(s => s.LastName);
+
 			// Enrollments configuration
 			modelBuilder.Entity<Enrollment>()
 				.Property(e => e.Status).HasConversion(

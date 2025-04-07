@@ -1,0 +1,45 @@
+[2025-04-07 00:01:40 INF] Request starting HTTP/1.1 GET https://localhost:7198/api/students - application/json 133
+[2025-04-07 00:01:42 INF] Executing endpoint 'Students.Web.Controllers.StudentsController.GetAllStudentsAsync (Students.Web)'
+[2025-04-07 00:01:42 INF] Route matched with {action = "GetAllStudents", controller = "Students"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllStudentsAsync() on controller Students.Web.Controllers.StudentsController (Students.Web).
+[2025-04-07 00:01:50 INF] Executed DbCommand (2,716ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[StudentId], [s].[AdmissionDate], [s].[DateOfBirth], [s].[Email], [s].[FirstName], [s].[IsActive], [s].[LastName]
+FROM [Students] AS [s]
+ORDER BY [s].[FirstName]
+[2025-04-07 00:01:53 INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Students.Application.DTOs.ResponseDTOs.StudentResponseDto, Students.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+[2025-04-07 00:01:54 INF] Executed action Students.Web.Controllers.StudentsController.GetAllStudentsAsync (Students.Web) in 10664.0322ms
+[2025-04-07 00:01:55 INF] Executed endpoint 'Students.Web.Controllers.StudentsController.GetAllStudentsAsync (Students.Web)'
+[2025-04-07 00:01:56 INF] HTTP GET /api/students responded 200 in 14887.2569 ms
+[2025-04-07 00:01:58 INF] Request finished HTTP/1.1 GET https://localhost:7198/api/students - 200 null application/json; charset=utf-8 17428.3756ms
+[2025-04-07 00:02:25 INF] Request starting HTTP/1.1 POST https://localhost:7198/api/enrollments - application/json 152
+[2025-04-07 00:02:27 INF] Executing endpoint 'Students.Web.Controllers.EnrollmentsController.CreateEnrollmentAsync (Students.Web)'
+[2025-04-07 00:02:29 INF] Route matched with {action = "CreateEnrollment", controller = "Enrollments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateEnrollmentAsync(Students.Application.DTOs.EntityCreateDTOs.EnrollmentCreateDto) on controller Students.Web.Controllers.EnrollmentsController (Students.Web).
+[2025-04-07 00:02:30 INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+[2025-04-07 00:02:32 INF] Executed action Students.Web.Controllers.EnrollmentsController.CreateEnrollmentAsync (Students.Web) in 1919.2501ms
+[2025-04-07 00:02:34 INF] Executed endpoint 'Students.Web.Controllers.EnrollmentsController.CreateEnrollmentAsync (Students.Web)'
+[2025-04-07 00:02:35 INF] HTTP POST /api/enrollments responded 400 in 7459.9555 ms
+[2025-04-07 00:02:36 INF] Request finished HTTP/1.1 POST https://localhost:7198/api/enrollments - 400 null application/problem+json; charset=utf-8 11040.5893ms
+[2025-04-07 00:05:56 INF] Request starting HTTP/1.1 POST https://localhost:7198/api/enrollments - application/json 154
+[2025-04-07 00:05:59 INF] Executing endpoint 'Students.Web.Controllers.EnrollmentsController.CreateEnrollmentAsync (Students.Web)'
+[2025-04-07 00:06:00 INF] Route matched with {action = "CreateEnrollment", controller = "Enrollments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateEnrollmentAsync(Students.Application.DTOs.EntityCreateDTOs.EnrollmentCreateDto) on controller Students.Web.Controllers.EnrollmentsController (Students.Web).
+[2025-04-07 00:06:02 INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+[2025-04-07 00:06:03 INF] Executed action Students.Web.Controllers.EnrollmentsController.CreateEnrollmentAsync (Students.Web) in 1502.9555ms
+[2025-04-07 00:06:04 INF] Executed endpoint 'Students.Web.Controllers.EnrollmentsController.CreateEnrollmentAsync (Students.Web)'
+[2025-04-07 00:06:05 INF] HTTP POST /api/enrollments responded 400 in 6451.3800 ms
+[2025-04-07 00:06:07 INF] Request finished HTTP/1.1 POST https://localhost:7198/api/enrollments - 400 null application/problem+json; charset=utf-8 10982.7873ms
+[2025-04-07 00:06:21 INF] Request starting HTTP/1.1 POST https://localhost:7198/api/enrollments - application/json 153
+[2025-04-07 00:06:25 INF] Executing endpoint 'Students.Web.Controllers.EnrollmentsController.CreateEnrollmentAsync (Students.Web)'
+[2025-04-07 00:06:26 INF] Route matched with {action = "CreateEnrollment", controller = "Enrollments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateEnrollmentAsync(Students.Application.DTOs.EntityCreateDTOs.EnrollmentCreateDto) on controller Students.Web.Controllers.EnrollmentsController (Students.Web).
+[2025-04-07 00:06:26 INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+[2025-04-07 00:06:27 INF] Executed action Students.Web.Controllers.EnrollmentsController.CreateEnrollmentAsync (Students.Web) in 531.7418ms
+[2025-04-07 00:06:28 INF] Executed endpoint 'Students.Web.Controllers.EnrollmentsController.CreateEnrollmentAsync (Students.Web)'
+[2025-04-07 00:06:28 INF] HTTP POST /api/enrollments responded 400 in 3207.3420 ms
+[2025-04-07 00:06:29 INF] Request finished HTTP/1.1 POST https://localhost:7198/api/enrollments - 400 null application/problem+json; charset=utf-8 7344.0678ms
+[2025-04-07 00:07:30 INF] Request starting HTTP/1.1 POST https://localhost:7198/api/enrollments - application/json 153
+[2025-04-07 00:07:32 INF] Executing endpoint 'Students.Web.Controllers.EnrollmentsController.CreateEnrollmentAsync (Students.Web)'
+[2025-04-07 00:07:33 INF] Route matched with {action = "CreateEnrollment", controller = "Enrollments"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateEnrollmentAsync(Students.Application.DTOs.EntityCreateDTOs.EnrollmentCreateDto) on controller Students.Web.Controllers.EnrollmentsController (Students.Web).
+[2025-04-07 00:07:35 INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+[2025-04-07 00:07:36 INF] Executed action Students.Web.Controllers.EnrollmentsController.CreateEnrollmentAsync (Students.Web) in 1065.0956ms
+[2025-04-07 00:07:37 INF] Executed endpoint 'Students.Web.Controllers.EnrollmentsController.CreateEnrollmentAsync (Students.Web)'
+[2025-04-07 00:07:38 INF] HTTP POST /api/enrollments responded 400 in 6087.6664 ms
+[2025-04-07 00:07:39 INF] Request finished HTTP/1.1 POST https://localhost:7198/api/enrollments - 400 null application/problem+json; charset=utf-8 9139.3217ms
+[2025-04-07 00:07:58 INF] Application is shutting down...

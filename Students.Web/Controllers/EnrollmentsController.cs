@@ -13,17 +13,16 @@ namespace Students.Web.Controllers
 	[Route("api/[controller]")]
 	[ApiController]
 	public class EnrollmentsController(IMediator mediator,
-		IEnrollmentCacheSevice cacheSevice, IMapper mapper) : ControllerBase
+		IEnrollmentCacheSevice cacheService) : ControllerBase
 	{
 		private readonly IMediator _mediator = mediator;
-		private readonly IEnrollmentCacheSevice _cacheSevice = cacheSevice;
-		private readonly IMapper _mapper = mapper;
+		private readonly IEnrollmentCacheSevice _cacheService = cacheService;
 
 		[HttpGet]
 		public async Task<IActionResult> GetAllEnrollmentsAsync()
 		{
 			var query = new GetAllEnrollmentsQuery();
-			var result = await _cacheSevice.GetAllAsync("enrollments")
+			var result = await _cacheService.GetAllAsync("enrollments")
 				?? await _mediator.Send(query);
 			return Ok(result);
 		}
@@ -32,7 +31,7 @@ namespace Students.Web.Controllers
 		public async Task<IActionResult> GetEnrollmentByIdAsync(Guid id)
 		{
 			var query = new GetEnrollmentByIdQuery { EnrollmentId = id };
-			var result = await _cacheSevice.GetAsync(id)
+			var result = await _cacheService.GetAsync(id) 
 				?? await _mediator.Send(query);
 			return Ok(result);
 		}
@@ -46,7 +45,6 @@ namespace Students.Web.Controllers
 			}
 			var command = new CreateEnrollmentCommand { Enrollment = enrollment };
 			var result = await _mediator.Send(command);
-			await _cacheSevice.SetAsync(result.Id, _mapper.Map<Enrollment>(enrollment));
 			return CreatedAtRoute("GetEnrollmentById", new { id = result.Id }, result);
 		}
 
@@ -67,7 +65,6 @@ namespace Students.Web.Controllers
 		{
 			var command = new DeleteEnrollmentCommand { EnrollmentId = id };
 			await _mediator.Send(command);
-			await _cacheSevice.RemoveAsync(id);
 			return NoContent();
 		}
 	}
