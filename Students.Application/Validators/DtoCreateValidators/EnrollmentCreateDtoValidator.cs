@@ -8,7 +8,7 @@ namespace Students.Application.Validators.DtoCreateValidators
 		public EnrollmentCreateDtoValidator()
 		{
 			RuleFor(x => x.StudentId).NotEmpty();
-			RuleFor(x => x.CourseSectionId).NotEmpty();
+			RuleFor(x => x.CourseOfferingId).NotEmpty();
 		}
 	}
 }

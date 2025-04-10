@@ -10,7 +10,7 @@ namespace Students.Application
 		{
 			services.AddAutoMapper(Assembly.GetExecutingAssembly());
 			services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-			services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+			services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
 			return services;
 		}

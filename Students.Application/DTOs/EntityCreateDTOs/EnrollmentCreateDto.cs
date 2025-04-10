@@ -2,7 +2,7 @@
 {
 	public record EnrollmentCreateDto(
 		Guid StudentId,
-		Guid CourseSectionId,
+		Guid CourseOfferingId,
 		string Status,
 		DateTime EnrollmentDate);
 }

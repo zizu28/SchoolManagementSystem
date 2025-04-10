@@ -19,11 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
     <Folder Include="CQRS\Handlers\CommandHandlers\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="ProfileMapping\" />
-    <Folder Include="Validators\" />
   </ItemGroup>
 
 </Project>

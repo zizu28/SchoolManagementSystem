@@ -1,20 +1,15 @@
-﻿using Courses.Domain.Enums;
-
-namespace Courses.Domain.Entities
+﻿namespace Courses.Domain.Entities
 {
 	public class Course
 	{
 		public Guid CourseId { get; set; }
-		public string? CourseCode { get; set; }
-		public string? Title { get; set; }
-		public string? Description { get; set; }
+		public string CourseCode { get; set; } = string.Empty;
+		public string Title { get; set; } = string.Empty;
+		public string Description { get; set; } = string.Empty;
 		public int Credits { get; set; }
-		public ICollection<CourseOffering> CourseOfferings { get; set; } = [];
-		public ICollection<Course> CoursePrerequisites { get; set; } = [];
-		public Guid DepartmentId { get; set; }
-		public EducationLevel Level { get; set; }
-		public bool IsActive { get; set; }
-		public DateTime CreatedAt { get; set; }
-		public DateTime UpdatedAt { get; set; }
+		public string Department { get; set; } = string.Empty;
+		public string Instructor { get; set; } = string.Empty;
+		public List<Guid> StudentIds { get; set; } = [];
+		public List<Guid> EnrollmentIds { get; set; } = [];
 	}
 }

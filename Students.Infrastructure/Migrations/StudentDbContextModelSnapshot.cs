@@ -81,7 +81,7 @@ namespace Students.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CourseSectionId")
+                    b.Property<Guid>("CourseOfferingId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("EnrollmentDate")
