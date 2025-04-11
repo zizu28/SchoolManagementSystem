@@ -4,8 +4,10 @@ using System.Linq.Expressions;
 
 namespace Infrastructure.BackgroundJobs.Services
 {
-	public class HangfireBackgroundJobService : IBackgroundJobService
+	public class HangfireBackgroundJobService(BatchJobTracker jobTracker) : IBackgroundJobService
 	{
+		private readonly BatchJobTracker _jobTracker = jobTracker;
+
 		public void AddOrUpdateRecurringJob(string jobId, Expression<Func<Task>> methodCall, Func<string> cronExpression)
 		{
 			RecurringJob.AddOrUpdate(jobId, methodCall, cronExpression());
@@ -20,7 +22,11 @@ namespace Infrastructure.BackgroundJobs.Services
 		{
 			var builder = new HangfireBatchJobBuilder();
 			batchBuilder(builder);
-			return builder.Execute();
+			var jobIds = builder.Execute();
+
+			_jobTracker.CreateBatchJob(jobIds);
+
+			return jobIds;
 		}
 
 		internal class HangfireBatchJobBuilder : IBatchJobBuilder
